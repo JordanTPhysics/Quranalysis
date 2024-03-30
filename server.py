@@ -5,7 +5,7 @@ Created on Sat Mar 30 07:57:14 2024
 @author: Thijssenj
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import asyncio
 from datasource import quran_datasource
 import search as qs
@@ -15,6 +15,10 @@ from flask_cors import CORS
 quran = None
 server = Flask(__name__)
 CORS(server)
+
+@server.route('/', methods=['GET'])
+def home():
+    return render_template('index.html')
 
 @server.route('/api/surah/<int:number>', methods=['GET'])
 def surah_text(number):
@@ -30,4 +34,4 @@ def rootsearch(word):
 
 if __name__ == '__main__':
     quran = quran_datasource()
-    server.run(debug=True, port=5001)
+    server.run(debug=False, port=8000)
